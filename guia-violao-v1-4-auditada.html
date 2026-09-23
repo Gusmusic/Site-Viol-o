@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
+<title>Guia de Acordes de Violão</title>
+<style>
+:root{--bg:#111;--card:#1d1d1d;--border:#343434;--muted:#a4a4a4;--orange:#e95722;--orange2:#f15a24;--green:#48a66a;--chip:#242424}
+*{box-sizing:border-box}html,body{margin:0;min-height:100%;background:var(--bg);color:#eee;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}body{overflow-x:hidden}.page{width:100%;max-width:1100px;margin:0 auto;padding:36px 18px 80px}.hero{padding-top:8px}.title{margin:0 0 18px;font-size:22px;font-weight:800;color:var(--orange);display:flex;align-items:center;gap:8px}.title .guitar{font-size:22px}.chips{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:8px}.chip{border:1px solid #3a3a3a;background:#232323;color:#a8a8a8;border-radius:20px;padding:8px 15px;font-size:13px;line-height:1;cursor:pointer}.chip.active{background:var(--orange);border-color:var(--orange);color:white;font-weight:700}.note-row{margin-top:2px;margin-bottom:18px}.note-row .chip{width:40px;padding:8px 0;text-align:center}.divider{height:1px;background:#343434;margin:0 -18px 18px}.section-title{font-size:12px;letter-spacing:1.5px;color:#a2a2a2;margin:0 2px 12px;font-weight:700}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.card{height:198px;background:var(--card);border:1px solid #353535;border-radius:12px;position:relative;padding:15px 14px 12px;text-align:center;cursor:pointer;transition:border-color .15s,transform .15s}.card:hover{border-color:#666}.card.selected{border-color:var(--orange)}.card:active{transform:scale(.99)}.card .type{position:absolute;right:12px;top:12px;color:var(--orange);font-size:10px;letter-spacing:1px;font-weight:700}.card.seventh .type{color:var(--green)}.chord-name{font-size:24px;font-weight:800;color:var(--orange);line-height:1.05;margin-top:3px}.chord-full{font-size:13px;color:#a6a6a6;margin-top:5px}.diagram{height:112px;width:150px;margin:10px auto 0}.tip-preview{display:none}.section{margin-bottom:20px}.empty{text-align:center;color:#999;padding:45px 10px}.modal-backdrop{position:fixed;inset:0;background:rgba(0,0,0,.78);display:none;align-items:center;justify-content:center;padding:18px;z-index:50}.modal-backdrop.open{display:flex}.modal{width:min(372px,94vw);background:#1b1b1b;border:1px solid #454545;border-radius:16px;padding:26px 24px 20px;position:relative;text-align:center;box-shadow:0 24px 80px rgba(0,0,0,.65)}.close{position:absolute;right:14px;top:12px;color:#999;background:none;border:0;font-size:25px;line-height:1;cursor:pointer}.modal .chord-name{font-size:40px;margin-top:0}.modal .chord-full{font-size:19px;color:#eee;margin-top:7px}.badge{display:inline-block;margin-top:10px;background:#4b2b17;color:#df741e;border-radius:14px;padding:5px 12px;font-size:11px;font-weight:700;letter-spacing:.9px}.modal-diagram{width:190px;height:190px;margin:24px auto 10px}.description{color:#a5a5a5;font-size:15px;line-height:1.6;min-height:49px;margin:0 auto 14px;max-width:290px}.modal-tip{border-top:1px solid #3a3a3a;padding-top:12px;color:#888;font-size:13px;line-height:1.5}.modal-tip b{font-weight:400}.modal-tip strong{color:#999}.toast{position:fixed;left:50%;bottom:22px;transform:translateX(-50%);background:#252525;border:1px solid #444;color:#ddd;padding:9px 13px;border-radius:10px;font-size:12px;opacity:0;pointer-events:none;transition:.2s;z-index:80}.toast.show{opacity:1}
+@media(min-width:760px){.page{padding:48px 28px 80px}.divider{margin-left:-28px;margin-right:-28px}.grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}.card{height:205px}}
+@media(max-width:430px){.page{padding-top:112px}.title{font-size:21px}.chip{font-size:13px;padding:8px 14px}.grid{gap:12px}.card{height:198px;padding-left:9px;padding-right:9px}.diagram{width:142px}.modal{padding-left:20px;padding-right:20px}}
+.diagram-legend{display:flex;flex-wrap:wrap;gap:10px;margin:12px 0 4px;color:#9d9d9d;font-size:11px}.diagram-legend span{display:inline-flex;align-items:center;gap:5px}.diagram-legend i{font-style:normal}.diagram-legend .dot{width:10px;height:10px;border-radius:50%;background:#e95722;display:inline-block}.diagram-legend .open{font-size:13px}.diagram-legend .mute{font-size:15px}.diagram-legend .bar{width:16px;height:6px;border-radius:4px;background:#e95722;display:inline-block}</style>
+</head>
+<body>
+<main class="page">
+  <section class="hero">
+    <h1 class="title"><span class="guitar">🎸</span> Guia de Acordes</h1>
+    <div class="chips" id="typeFilters"></div>
+    <div class="chips note-row" id="noteFilters"></div>
+  </section>
+  <div class="divider"></div>
+  <div class="diagram-legend"><span><i class="dot"></i> dedo</span><span><i class="open">O</i> corda solta</span><span><i class="mute">×</i> não tocar</span><span><i class="bar"></i> pestana</span></div><div id="results"></div>
+</main>
+<div class="modal-backdrop" id="modalBackdrop" role="dialog" aria-modal="true">
+  <div class="modal">
+    <button class="close" onclick="closeModal()">×</button>
+    <div class="chord-name" id="modalName"></div>
+    <div class="chord-full" id="modalFull"></div>
+    <div class="badge" id="modalType"></div>
+    <div class="modal-diagram" id="modalDiagram"></div>
+    <p class="description" id="modalDescription"></p>
+    <div class="modal-tip"><b>Dica: <span id="modalTip"></span></b></div>
+  </div>
+</div>
+<div class="toast" id="toast"></div>
+<script>
+const types=['Todos','Maiores','Menores','Com Sétima','De Sexta','Com Nona','Suspensos','Diminutos'];
+const notes=['Todas','C','D','E','F','G','A','B'];
+let type='Todos', note='Todas', selected=null;
+const F=(name,full,group,note,shape,desc,tip)=>({name,full,group,note,shape,desc,tip});
+const chords=[
+F('C','Dó Maior','Maiores','C',['x',3,2,0,1,0],'Um dos acordes mais usados.','Mantenha os dedos arqueados para não abafar as cordas abertas.'),
+F('D','Ré Maior','Maiores','D',['x','x',0,2,3,2],'Um acorde aberto muito usado.','Toque a partir da 4ª corda.'),
+F('E','Mi Maior','Maiores','E',[0,2,2,1,0,0],'Um dos acordes fundamentais.','Deixe as cordas abertas soarem.'),
+F('F','Fá Maior','Maiores','F',[1,3,3,2,1,1],'Acorde maior com pestana completa na 1ª casa.','O indicador faz a pestana na 1ª casa; os outros dedos completam o desenho.'),
+F('G','Sol Maior','Maiores','G',[3,2,0,0,0,3],'Acorde aberto muito usado.','Confira se as cordas abertas estão soando claramente.'),
+F('A','Lá Maior','Maiores','A',['x',0,2,2,2,0],'Acorde aberto muito útil.','Toque a partir da 5ª corda.'),
+F('B','Si Maior','Maiores','B',['x',2,4,4,4,2],'Acorde com pestana.','O indicador faz a pestana na 2ª casa das cinco cordas agudas.'),
+F('Cm','Dó Menor','Menores','C',['x',3,5,5,4,3],'Forma menor com pestana.','Faça a pestana na 3ª casa e confira cada corda.'),
+F('Dm','Ré Menor','Menores','D',['x','x',0,2,3,1],'Forma menor aberta.','Toque a partir da 4ª corda.'),
+F('Em','Mi Menor','Menores','E',[0,2,2,0,0,0],'Um dos acordes menores mais fáceis.','As seis cordas podem soar.'),
+F('Fm','Fá Menor','Menores','F',[1,3,3,1,1,1],'Forma menor com pestana completa.','Faça a pestana na 1ª casa e mantenha a mão relaxada.'),
+F('Gm','Sol Menor','Menores','G',[3,5,5,3,3,3],'Forma menor com pestana.','Faça a pestana na 3ª casa.'),
+F('Am','Lá Menor','Menores','A',['x',0,2,2,1,0],'Acorde menor aberto.','Toque a partir da 5ª corda.'),
+F('Bm','Si Menor','Menores','B',['x',2,4,4,3,2],'Forma menor com pestana.','Faça a pestana na 2ª casa das cinco cordas mais agudas.'),
+F('C7','Dó com Sétima','Com Sétima','C',['x',3,2,3,1,0],'Acorde dominante de Dó.','Confira a posição da 4ª corda.'),
+F('C9','Dó com Nona','Com Nona','C',['x',3,2,3,3,3],'Acorde de nona com pestana parcial.','A sexta corda não é tocada; a pestana cobre as três cordas mais agudas na 3ª casa.'),
+F('Cm7','Dó Menor com Sétima','Com Sétima','C',['x',3,5,3,4,3],'Forma menor com sétima e pestana.','Mantenha a pestana na 3ª casa.'),
+F('D7','Ré com Sétima','Com Sétima','D',['x','x',0,2,1,2],'Forma de Ré com sétima.','Toque a partir da 4ª corda.'),
+F('Dm7','Ré Menor com Sétima','Com Sétima','D',['x','x',0,2,1,1],'Forma menor com sétima.','Toque a partir da 4ª corda.'),
+F('E7','Mi com Sétima','Com Sétima','E',[0,2,0,1,0,0],'Dominante clássico.','Experimente alternar E7 e A.'),
+F('Em7','Mi Menor com Sétima','Com Sétima','E',[0,2,0,0,0,0],'Variação menor com sétima.','Deixe as cordas abertas soarem.'),
+F('F7','Fá com Sétima','Com Sétima','F',[1,3,1,2,1,1],'Forma com pestana na 1ª casa.','O indicador faz a pestana; o dedo 2 completa a forma.'),
+F('Fm7','Fá Menor com Sétima','Com Sétima','F',[1,3,1,1,1,1],'Forma menor com sétima e pestana.','Faça a pestana completa na 1ª casa.'),
+F('G7','Sol com Sétima','Com Sétima','G',[3,2,0,0,0,1],'Dominante muito usado para C.','Treine G7 e C em sequência.'),
+F('Gm7','Sol Menor com Sétima','Com Sétima','G',[3,5,3,3,3,3],'Forma menor com sétima e pestana.','Faça a pestana na 3ª casa.'),
+F('A7','Lá com Sétima','Com Sétima','A',['x',0,2,0,2,0],'Lá com sétima dominante.','A sexta corda é abafada; toque a partir da 5ª corda.'),
+F('Am7','Lá Menor com Sétima','Com Sétima','A',['x',0,2,0,1,0],'Forma menor com sétima.','Mantenha o indicador leve.'),
+F('B7','Si com Sétima','Com Sétima','B',['x',2,1,2,0,2],'Forma aberta de Si com sétima.','A sexta corda não é tocada; o desenho usa as cinco cordas mais agudas.'),
+F('Bm7','Si Menor com Sétima','Com Sétima','B',['x',2,4,2,3,2],'Forma menor com sétima e pestana.','Faça a pestana na 2ª casa das cinco cordas agudas.'),
+F('C6','Dó com Sexta','De Sexta','C',['x',3,2,2,1,0],'Acorde com sexta acrescentada.','Toque a partir da 5ª corda.'),
+F('D6','Ré com Sexta','De Sexta','D',['x','x',0,2,0,2],'Variação de Ré com sexta.','Toque a partir da 4ª corda.'),
+F('E6','Mi com Sexta','De Sexta','E',[0,2,2,1,2,0],'Variação de Mi com sexta.','Confira a nota da 2ª corda.'),
+F('A6','Lá com Sexta','De Sexta','A',['x',0,2,2,2,2],'Variação de Lá com sexta.','Toque a partir da 5ª corda.'),
+F('Cadd9','Dó com Nona','Com Nona','C',['x',3,2,0,3,0],'Dó com nona adicionada.','Mantenha a sexta corda abafada e deixe a primeira corda aberta.'),
+F('Dsus2','Ré Suspenso 2','Suspensos','D',['x','x',0,2,3,0],'Variação suspensa de Ré.','Deixe a 1ª corda aberta.'),
+F('Esus4','Mi Suspenso 4','Suspensos','E',[0,2,2,2,0,0],'Forma suspensa de Mi.','Alterne entre E e Esus4.'),
+F('Asus2','Lá Suspenso 2','Suspensos','A',['x',0,2,2,0,0],'Forma suspensa muito usada.','Alterne entre A e Asus2.'),
+F('A7sus4','Lá Sétima Suspenso 4','Suspensos','A',['x',0,2,0,3,0],'Lá com sétima e quarta suspensa.','A sexta corda é abafada; as demais cordas indicadas devem soar.'),
+F('Cdim','Dó Diminuto','Diminutos','C',['x',3,4,5,4,'x'],'Acorde diminuto.','Toque corda por corda para conferir a limpeza.'),
+F('Ddim','Ré Diminuto','Diminutos','D',['x','x',0,1,3,1],'Forma diminuta simples.','Toque a partir da 4ª corda.'),
+F('Edim','Mi Diminuto','Diminutos','E',['x','x',2,3,'x',3],'Forma diminuta aberta.','Confira cada nota individualmente.'),
+F('F#dim','Fá Sustenido Diminuto','Diminutos','F',[2,3,4,2,'x','x'],'Forma diminuta móvel.','Use pouca força e busque clareza.'),
+F('Bdim','Si Diminuto','Diminutos','B',['x',2,3,4,3,'x'],'Forma diminuta móvel.','Pratique lentamente e confira cada nota.')
+];
+// Pestanas completas das formas mais comuns. O F maior usa pestana na 1ª casa.
+const barreByChord={F:{fret:1,from:0,to:5},Fm:{fret:1,from:0,to:5},F7:{fret:1,from:0,to:5},Fm7:{fret:1,from:0,to:5},B:{fret:2,from:1,to:5},Bm:{fret:2,from:1,to:5},C9:{fret:3,from:3,to:5},Bm7:{fret:2,from:1,to:5},Cm:{fret:3,from:1,to:5},Gm:{fret:3,from:0,to:5},Gm7:{fret:3,from:0,to:5},Cm7:{fret:3,from:1,to:5},Dm7:{fret:1,from:4,to:5},A6:{fret:2,from:2,to:5}};
+function shapeForChord(c){return {notes:c.shape,barre:barreByChord[c.name]||null};}
+function svgChord(shape,large=false){
+ const W=large?230:155,H=large?225:125,left=large?34:25,right=large?18:14,top=large?34:22,bottom=large?20:12,sw=(W-left-right)/5,fh=(H-top-bottom)/5;
+ const vals=shape.notes,barre=shape.barre;
+ let s=`<svg viewBox="0 0 ${W} ${H}" width="100%" height="100%" role="img" aria-label="Diagrama de acorde">`;
+ for(let f=0;f<=5;f++){const y=top+f*fh;s+=`<line x1="${left}" y1="${y}" x2="${W-right}" y2="${y}" stroke="#5e5e5e" stroke-width="${f===0?3:1.2}"/>`}
+ for(let i=0;i<6;i++){const x=left+i*sw;s+=`<line x1="${x}" y1="${top}" x2="${x}" y2="${H-bottom}" stroke="#555" stroke-width="1.2"/>`}
+ vals.forEach((v,i)=>{const x=left+i*sw;if(v==='x')s+=`<text x="${x}" y="${top-10}" fill="#b7b7b7" font-size="${large?17:12}" text-anchor="middle" font-weight="700">×</text>`;else if(v===0)s+=`<circle cx="${x}" cy="${top-10}" r="${large?6:4.5}" fill="none" stroke="#b7b7b7" stroke-width="1.7"/>`;});
+ if(barre){const y=top+(barre.fret-.5)*fh;const x1=left+barre.from*sw,x2=left+barre.to*sw;s+=`<rect x="${x1-5}" y="${y-(large?8:6)}" width="${x2-x1+10}" height="${large?16:12}" rx="${large?8:6}" fill="#e95722"/>`; }
+ vals.forEach((v,i)=>{if(v==='x'||v===0)return;if(barre && v===barre.fret && i>=barre.from && i<=barre.to)return;const x=left+i*sw;const fret=((v-1)%5)+1;const y=top+(fret-.5)*fh;s+=`<circle cx="${x}" cy="${y}" r="${large?8:6}" fill="#e95722"/>`;});
+ s+='</svg>';return s;
+}
+function renderFilters(){document.querySelector('#typeFilters').innerHTML=types.map(t=>`<button class="chip ${t===type?'active':''}" onclick="setType('${t}')">${t}</button>`).join('');document.querySelector('#noteFilters').innerHTML=notes.map(n=>`<button class="chip ${n===note?'active':''}" onclick="setNote('${n}')">${n}</button>`).join('')}
+function setType(v){type=v;render()};function setNote(v){note=v;render()}
+function render(){renderFilters();const filtered=chords.filter(c=>(type==='Todos'||c.group===type)&&(note==='Todas'||c.note===note));const groups={};filtered.forEach(c=>(groups[c.group]??=[]).push(c));document.querySelector('#results').innerHTML=Object.entries(groups).map(([g,arr])=>`<section class="section"><h2 class="section-title">ACORDES ${g.toUpperCase()}</h2><div class="grid">${arr.map(c=>`<article class="card ${c.group==='Com Sétima'?'seventh':''} ${selected===c.name?'selected':''}" onclick="openChord('${c.name}')"><span class="type">${c.group==='Com Sétima'?'SÉTIMA':g==='Maiores'?'MAIOR':g==='Menores'?'MENOR':g.toUpperCase()}</span><div class="chord-name">${c.name}</div><div class="chord-full">${c.full}</div><div class="diagram">${svgChord(shapeForChord(c))}</div></article>`).join('')}</div></section>`).join('')||'<div class="empty">Nenhum acorde encontrado.</div>'}
+function openChord(name){const c=chords.find(x=>x.name===name);selected=name;document.querySelector('#modalName').textContent=c.name;document.querySelector('#modalFull').textContent=c.full;document.querySelector('#modalType').textContent=c.group==='Com Sétima'?'SÉTIMA':c.group==='Maiores'?'MAIOR':c.group==='Menores'?'MENOR':c.group.toUpperCase();document.querySelector('#modalDiagram').innerHTML=svgChord(shapeForChord(c),true);document.querySelector('#modalDescription').textContent=c.desc;document.querySelector('#modalTip').textContent=c.tip;document.querySelector('#modalBackdrop').classList.add('open');render()}
+function closeModal(){document.querySelector('#modalBackdrop').classList.remove('open')}
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal()});document.querySelector('#modalBackdrop').addEventListener('click',e=>{if(e.target.id==='modalBackdrop')closeModal()});render();
+</script>
+</body></html>
